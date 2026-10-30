@@ -43,6 +43,9 @@ async function createWindow() {
     backgroundColor: "#c0c0c0",
     icon: join(ROOT, "icon-192.png"),
     webPreferences: {
+      ...(process.env.PAINT_SMOKE_TEST === "1"
+        ? { offscreen: true, backgroundThrottling: false }
+        : {}),
       preload: join(__dirname, "preload.cjs"),
       contextIsolation: true,
       nodeIntegration: false,

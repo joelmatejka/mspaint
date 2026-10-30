@@ -4,7 +4,13 @@ This is a functional recreation, **not verified as pixel-identical or behavior-i
 
 ## Audit coverage
 
-Latest completed run: **117 passed, 0 failed**. The separate headless desktop startup test also passed. Real browser pointer checks confirmed rectangle drawing, enclosed fill, selection movement, and hue/luminosity picking. These results apply to the current local implementation.
+Latest completed browser run: **124 passed, 0 failed**. The separate pixel-precision suite passed **45 real-mouse checks** at both standard and 125% display scaling. The headless desktop startup test also passed. Real browser pointer checks confirmed rectangle drawing, enclosed fill, selection movement, and hue/luminosity picking. These results apply to the current local implementation.
+
+### High-zoom pixel precision
+
+The pointer mapper previously rounded bitmap coordinates, so the right or bottom half of a magnified pixel selected its neighbor. It now selects the containing pixel using the actual displayed canvas bounds, accounting for scrolling and independent CSS scaling. Selection-handle hit testing keeps fractional coordinates so handles on odd-sized selections remain usable. The offline cache version was advanced for the corrected drawing engine.
+
+`tests/pixel-precision.cjs` checks actual Chromium mouse clicks at seven positions within a 1600% pixel, the final bitmap pixel, scrolled pencil/fill/picker/eraser input, independent CSS scaling, all three appearances, and 100–1600% zoom. `tests/regression.cjs` runs the browser suite unattended. Both runners isolate their storage and test window from the user's app.
 
 | Area | Verification |
 | --- | --- |

@@ -130,6 +130,42 @@ document.querySelector("#run").addEventListener("click", async () => {
     equal(pixel(20, 6), [255, 255, 255, 255]);
     assert(nonWhite() === 41);
   });
+  for (const zoom of [2, 4, 6, 8, 16]) {
+    await test(`${zoom * 100}% pencil targets the pixel containing the pointer`, () => {
+      reset();
+      e.setZoom(zoom);
+      for (const [x, y] of [
+        [12.1, 11.1],
+        [12.5, 11.5],
+        [12.99, 11.99],
+      ])
+        click(x, y);
+      equal(pixel(12, 11), [0, 0, 0, 255]);
+      equal(pixel(13, 11), [255, 255, 255, 255]);
+      equal(pixel(12, 12), [255, 255, 255, 255]);
+      equal(pixel(13, 12), [255, 255, 255, 255]);
+      equal(nonWhite(), 1);
+    });
+  }
+  await test("1600% pencil reaches the bottom-right pixel without rounding outside the bitmap", () => {
+    reset(32, 32);
+    e.setZoom(16);
+    click(31.99, 31.99);
+    equal(pixel(31, 31), [0, 0, 0, 255]);
+    equal(nonWhite(), 1);
+  });
+  await test("1600% selection handles remain reachable on half-pixel boundaries", () => {
+    reset();
+    e.setZoom(16);
+    e.createSelection({ x: 10, y: 10, w: 11, h: 13 });
+    down(15.5, 10);
+    equal(e.drag?.kind, "resizeSelection");
+    equal(e.drag.handle, "n");
+    move(15.5, 8);
+    up(15.5, 8);
+    equal([e.selection.y, e.selection.h], [8, 15]);
+    e.commitSelection();
+  });
   await test("Shift-constrained pencil stays on one axis", () => {
     reset();
     draw(

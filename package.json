@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node scripts/serve.mjs",
     "dev": "node scripts/serve.mjs",
-    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/icons.js && node --check desktop/main.cjs && node --check desktop/preload.cjs && node --check tests/verify.js",
+    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/icons.js && node --check desktop/main.cjs && node --check desktop/preload.cjs && node --check tests/verify.js && node --check tests/pixel-precision.cjs && node --check tests/regression.cjs",
     "test": "node scripts/serve.mjs --tests",
     "desktop": "electron ."
   },

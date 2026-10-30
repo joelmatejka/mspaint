@@ -227,12 +227,15 @@ export class PaintEngine {
     this.drawOverlay();
     this.emit("colors");
   }
-  point(e) {
+  point(e, snapToPixel = true) {
     const r = this.overlay.getBoundingClientRect();
-    return {
-      x: Math.round((e.clientX - r.left) / this.zoom),
-      y: Math.round((e.clientY - r.top) / this.zoom),
-    };
+    // Map the displayed canvas back to bitmap coordinates. Bounding rectangles
+    // already include scrolling and any extra CSS scaling of an embedded app.
+    const x = ((e.clientX - r.left) * this.width) / r.width;
+    const y = ((e.clientY - r.top) * this.height) / r.height;
+    // A pixel occupies [n, n + 1). Rounding incorrectly selects its neighbor
+    // throughout the right/bottom half of each magnified pixel.
+    return snapToPixel ? { x: Math.floor(x), y: Math.floor(y) } : { x, y };
   }
   inside(p) {
     return p.x >= 0 && p.y >= 0 && p.x < this.width && p.y < this.height;
@@ -244,7 +247,8 @@ export class PaintEngine {
     const p = this.point(e);
     this.viewport.focus({ preventScroll: true });
     if (this.selection) {
-      const handle = this.selectionHandle(p);
+      // Handles can lie on half-pixel coordinates for odd-sized selections.
+      const handle = this.selectionHandle(this.point(e, false));
       if (handle) {
         this.drag = {
           kind: "resizeSelection",
@@ -367,7 +371,7 @@ export class PaintEngine {
     }
     if (!this.drag) {
       if (this.selection) {
-        this.overlay.style.cursor = this.selectionHandle(p)
+        this.overlay.style.cursor = this.selectionHandle(this.point(e, false))
           ? "nwse-resize"
           : this.inSelection(p)
             ? "move"

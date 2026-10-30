@@ -64,7 +64,11 @@ Desktop startup and visual regression checks can run headlessly on Linux:
 ```bash
 PAINT_SMOKE_TEST=1 node_modules/.bin/electron --headless --ozone-platform=headless tests/desktop-smoke.cjs
 PAINT_SMOKE_TEST=1 node_modules/.bin/electron --headless --ozone-platform=headless tests/screenshots.cjs
+PAINT_SMOKE_TEST=1 node_modules/.bin/electron --headless --ozone-platform=headless tests/regression.cjs
+PAINT_SMOKE_TEST=1 node_modules/.bin/electron --headless --ozone-platform=headless tests/pixel-precision.cjs
 ```
+
+The regression runner executes the browser suite unattended. The pixel precision runner uses real Chromium mouse input to check individual pixels at 1600%, canvas edges, scrolling, fill/picker/eraser targeting, independent CSS scaling, and all three appearances. Results are written to `artifacts/`.
 
 See [verification and fidelity notes](VERIFICATION.md) for the scope of the audit and differences from Microsoft's originals.
 

@@ -1,4 +1,4 @@
-const CACHE = "classic-paint-v2";
+const CACHE = "classic-paint-v3";
 const FILES = [
   "./",
   "index.html",
