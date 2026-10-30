@@ -1,0 +1,21 @@
+{
+  "name": "classic-paint",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A browser and desktop Paint recreation with Windows 98, XP, and Windows 7 appearances.",
+  "type": "module",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "dev": "node scripts/serve.mjs",
+    "check": "node --check dist/app.js && node --check dist/engine.js && node --check dist/icons.js && node --check desktop/main.cjs && node --check desktop/preload.cjs && node --check tests/verify.js",
+    "test": "node scripts/serve.mjs --tests",
+    "desktop": "electron ."
+  },
+  "devDependencies": {
+    "electron": "45.1.0"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Classic Paint verification</title
+  ><style>
+    body {
+      font: 14px system-ui;
+      background: #f5f5f5;
+      color: #172434;
+      margin: 25px;
+    }
+    button {
+      font: inherit;
+      padding: 9px 18px;
+    }
+    .pass {
+      color: #19723a;
+    }
+    .fail {
+      color: #a11919;
+    }
+    li {
+      padding: 5px;
+    }
+    #summary {
+      font-weight: bold;
+      padding: 14px;
+      background: white;
+      border: 1px solid #ddd;
+    }
+    iframe {
+      position: fixed;
+      left: -1600px;
+      top: 0;
+      width: 1100px;
+      height: 760px;
+      border: 0;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+  </style>
+  <h1>Classic Paint verification</h1>
+  <p>
+    Real canvas pixel, editing history, dialog, file, and layout checks in an
+    isolated app instance.
+  </p>
+  <button id="run">Run checks</button>
+  <p id="summary">Ready</p>
+  <ol id="results"></ol>
+  <iframe id="app" src="../dist/?test=1"></iframe>
+  <script type="module" src="verify.js"></script>
+</html>

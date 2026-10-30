@@ -1,0 +1,15 @@
+node_modules/
+.sites-runtime/
+artifacts/
+*.log
+*.tar.gz
+*.tgz
+release/
+.aws/
+.agents/
+.codex/
+.openai/
+.github-checkout/
+.env
+.env.*
+!.env.example
